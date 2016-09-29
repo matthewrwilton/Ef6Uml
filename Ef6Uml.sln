@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ef6Uml", "Ef6Uml\Ef6Uml.csproj", "{2576BE71-1ABC-4264-8BDD-2382BC1205BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C8DBDAF-F188-443D-85B8-33D2786C817D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ef6Uml.UnitTests", "Ef6Uml.UnitTests\Ef6Uml.UnitTests.csproj", "{A8409019-595D-48AD-A77E-E08BFA28EE29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2576BE71-1ABC-4264-8BDD-2382BC1205BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2576BE71-1ABC-4264-8BDD-2382BC1205BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2576BE71-1ABC-4264-8BDD-2382BC1205BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2576BE71-1ABC-4264-8BDD-2382BC1205BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8409019-595D-48AD-A77E-E08BFA28EE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8409019-595D-48AD-A77E-E08BFA28EE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8409019-595D-48AD-A77E-E08BFA28EE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8409019-595D-48AD-A77E-E08BFA28EE29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
