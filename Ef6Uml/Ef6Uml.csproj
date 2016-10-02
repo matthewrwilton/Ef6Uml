@@ -41,6 +41,7 @@
     <Compile Include="Output\IOutputter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Uml\Association.cs" />
     <Compile Include="Uml\Class.cs" />
     <Compile Include="Output\Yuml\YumlOutputter.cs" />
   </ItemGroup>
