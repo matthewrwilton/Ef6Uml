@@ -37,9 +37,25 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             actual.Should().Be(expected);
         }
 
+        [Fact]
+        public void Output_Correct_For_Single_Aggregation()
+        {
+            var target = new YumlOutputter();
+            var point = new ClassBuilder()
+                .WithName("Point");
+            var location = new ClassBuilder()
+                .WithName("Location")
+                .WithAggregationOf(point);
+
+            var actual = target.Output(location);
+            var expected = "[Location]+->[Point]";
+
+            actual.Should().Be(expected);
+        }
+
         private class ClassBuilder
         {
-            private List<Association> _associations = new List<Association>();
+            private List<Relationship> _relationships = new List<Relationship>();
             private string _name = "";
 
             public static implicit operator Class(ClassBuilder classBuilder)
@@ -49,7 +65,7 @@ namespace Ef6Uml.UnitTests.Output.Yuml
 
             public Class Build()
             {
-                return new Class(_name, _associations);
+                return new Class(_name, _relationships);
             }
 
             public ClassBuilder WithName(string name)
@@ -60,7 +76,13 @@ namespace Ef6Uml.UnitTests.Output.Yuml
 
             public ClassBuilder WithAssociationTo(Class to)
             {
-                _associations.Add(new Association(to));
+                _relationships.Add(new Relationship(to, RelationshipType.Association));
+                return this;
+            }
+
+            public ClassBuilder WithAggregationOf(Class of)
+            {
+                _relationships.Add(new Relationship(of, RelationshipType.Aggregation));
                 return this;
             }
         }

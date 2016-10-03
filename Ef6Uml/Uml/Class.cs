@@ -4,14 +4,14 @@ namespace Ef6Uml.Uml
 {
     public class Class
     {
-        public Class(string name, IReadOnlyList<Association> assocations)
+        public Class(string name, IReadOnlyList<Relationship> relationships)
         {
             Name = name;
-            Associations = new List<Association>(assocations);
+            Relationships = new List<Relationship>(relationships);
         }
 
         public string Name { get; }
 
-        public IReadOnlyList<Association> Associations { get; }
+        public IReadOnlyList<Relationship> Relationships { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Ef6Uml.Uml;
 
 namespace Ef6Uml.Output.Yuml
@@ -7,14 +8,32 @@ namespace Ef6Uml.Output.Yuml
     {
         public string Output(Class input)
         {
-            if (input.Associations.Any())
+            if (input.Relationships.Any())
             {
-                return string.Join("\r\n", input.Associations.Select(association => $"[{input.Name}]->[{association.To.Name}]"));
+                return string.Join("\r\n", input.Relationships.Select(relationship => OutputRelationship(input, relationship)));
             }
             else
             {
                 return $"[{input.Name}]";
             }
+        }
+
+        private string OutputRelationship(Class from, Relationship relationship)
+        {
+            string joinString;
+            switch(relationship.Type)
+            {
+                case RelationshipType.Association:
+                    joinString = "->";
+                    break;
+                case RelationshipType.Aggregation:
+                    joinString = "+->";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(relationship), $"Relationship type '{relationship.Type}' is not handled.");
+            }
+
+            return $"[{from.Name}]{joinString}[{relationship.With.Name}]";
         }
     }
 }
