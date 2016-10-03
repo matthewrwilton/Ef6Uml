@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ef6Uml.Uml;
@@ -9,55 +10,80 @@ namespace Ef6Uml.Output.Yuml
     {
         public string Output(Class input)
         {
-            var output = new StringBuilder();
+            var worker = new YumlOutputterWorker();
+            return worker.Output(input);
+        }
 
-            if (input.Relationships.Any())
+        private class YumlOutputterWorker
+        {
+            private readonly StringBuilder _output;
+            private readonly List<Class> _visitedClasses;
+
+            public YumlOutputterWorker()
             {
-                foreach (var relationship in input.Relationships)
+                _output = new StringBuilder();
+                _visitedClasses = new List<Class>();
+            }
+
+            public string Output(Class input)
+            {
+                OutputClass(input, true);
+
+                return _output.ToString().Trim();
+            }
+
+            public void OutputClass(Class c, bool alwaysOutput = false)
+            {
+                if (_visitedClasses.Contains(c))
                 {
-                    OutputRelationship(output, input, relationship);
+                    return;
+                }
+
+                _visitedClasses.Add(c);
+
+                if (c.Relationships.Any())
+                {
+                    foreach (var relationship in c.Relationships)
+                    {
+                        OutputRelationship(c, relationship);
+                    }
+                }
+                else if (alwaysOutput)
+                {
+                    OutputClassName(c);
                 }
             }
-            else
+
+            private void OutputClassName(Class c)
             {
-                OutputClassName(output, input);
+                _output.Append($"[{c.Name}]");
             }
 
-            return output.ToString().Trim();
-        }
-
-        private void OutputClassName(StringBuilder output, Class c)
-        {
-            output.Append($"[{c.Name}]");
-        }
-
-        private void OutputRelationship(StringBuilder output, Class from, Relationship relationship)
-        {
-            OutputClassName(output, from);
-            
-            switch (relationship.Type)
+            private void OutputRelationship(Class from, Relationship relationship)
             {
-                case RelationshipType.Association:
-                    output.Append("->");
-                    break;
-                case RelationshipType.Aggregation:
-                    output.Append("+->");
-                    break;
-                case RelationshipType.Composition:
-                    output.Append("++->");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(relationship), $"Relationship type '{relationship.Type}' is not handled.");
-            }
+                OutputClassName(from);
 
-            var to = relationship.With;
+                switch (relationship.Type)
+                {
+                    case RelationshipType.Association:
+                        _output.Append("->");
+                        break;
+                    case RelationshipType.Aggregation:
+                        _output.Append("+->");
+                        break;
+                    case RelationshipType.Composition:
+                        _output.Append("++->");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(relationship), $"Relationship type '{relationship.Type}' is not handled.");
+                }
 
-            OutputClassName(output, to);
-            output.Append("\r\n");
+                var to = relationship.With;
 
-            foreach (var nestedRelationship in to.Relationships)
-            {
-                OutputRelationship(output, to, nestedRelationship);
+                OutputClassName(to);
+                _output.Append("\r\n");
+
+                OutputClass(to);
             }
         }
     }

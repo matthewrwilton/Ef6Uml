@@ -11,5 +11,10 @@
         public Class With { get; }
 
         public RelationshipType Type { get; }
+
+        public override string ToString()
+        {
+            return $"{With}({Type})";
+        }
     }
 }

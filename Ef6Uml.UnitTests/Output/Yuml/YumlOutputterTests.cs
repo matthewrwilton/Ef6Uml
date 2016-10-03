@@ -88,6 +88,23 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             actual.Should().Be(expected);
         }
 
+        [Fact]
+        public void Output_Correct_For_Circular_Relationships()
+        {
+            var target = new YumlOutputter();
+            Class student = new ClassBuilder()
+                .WithName("Student");
+            Class teacher = new ClassBuilder()
+                .WithName("Teacher")
+                .WithAggregationOf(student);
+            student.AddRelationship(new Relationship(teacher, RelationshipType.Association));
+
+            var actual = target.Output(teacher);
+            var expected = "[Teacher]+->[Student]\r\n[Student]->[Teacher]";
+
+            actual.Should().Be(expected);
+        }
+
         private class ClassBuilder
         {
             private List<Relationship> _relationships = new List<Relationship>();
