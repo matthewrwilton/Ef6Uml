@@ -9,7 +9,7 @@ namespace Ef6Uml.UnitTests.Output.Yuml
     public class YumlOutputterTests
     {
         [Fact]
-        public void Single_Class()
+        public void Output_Correct_For_Single_Class()
         {
             var target = new YumlOutputter();
             var user = new ClassBuilder()
@@ -22,7 +22,7 @@ namespace Ef6Uml.UnitTests.Output.Yuml
         }
 
         [Fact]
-        public void Simple_Association()
+        public void Output_Correct_For_Single_Association()
         {
             var target = new YumlOutputter();
             var billingAddress = new ClassBuilder()
