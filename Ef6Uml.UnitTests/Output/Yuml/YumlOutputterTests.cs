@@ -105,6 +105,22 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             actual.Should().Be(expected);
         }
 
+        [Fact]
+        public void Output_Correct_For_Inheritance()
+        {
+            var target = new YumlOutputter();
+            Class contractor = new ClassBuilder()
+                .WithName("Contractor");
+            Class wages = new ClassBuilder()
+                .WithName("Wages")
+                .WithInheritor(contractor);
+
+            var actual = target.Output(wages);
+            var expected = "[Wages]^-[Contractor]";
+
+            actual.Should().Be(expected);
+        }
+
         private class ClassBuilder
         {
             private List<Relationship> _relationships = new List<Relationship>();
@@ -141,6 +157,12 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             public ClassBuilder WithCompositionOf(Class of)
             {
                 _relationships.Add(new Relationship(of, RelationshipType.Composition));
+                return this;
+            }
+
+            public ClassBuilder WithInheritor(Class inheritor)
+            {
+                _relationships.Add(new Relationship(inheritor, RelationshipType.Inheritance));
                 return this;
             }
         }

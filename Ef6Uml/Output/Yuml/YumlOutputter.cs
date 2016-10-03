@@ -74,6 +74,9 @@ namespace Ef6Uml.Output.Yuml
                     case RelationshipType.Composition:
                         _output.Append("++->");
                         break;
+                    case RelationshipType.Inheritance:
+                        _output.Append("^-");
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(relationship), $"Relationship type '{relationship.Type}' is not handled.");
                 }
