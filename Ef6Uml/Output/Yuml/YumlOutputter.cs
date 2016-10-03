@@ -29,6 +29,9 @@ namespace Ef6Uml.Output.Yuml
                 case RelationshipType.Aggregation:
                     joinString = "+->";
                     break;
+                case RelationshipType.Composition:
+                    joinString = "++->";
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(relationship), $"Relationship type '{relationship.Type}' is not handled.");
             }

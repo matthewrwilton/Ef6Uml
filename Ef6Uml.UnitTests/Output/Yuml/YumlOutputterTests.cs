@@ -53,6 +53,22 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             actual.Should().Be(expected);
         }
 
+        [Fact]
+        public void Output_Correct_For_Single_Composition()
+        {
+            var target = new YumlOutputter();
+            var point = new ClassBuilder()
+                .WithName("Point");
+            var location = new ClassBuilder()
+                .WithName("Location")
+                .WithCompositionOf(point);
+
+            var actual = target.Output(location);
+            var expected = "[Location]++->[Point]";
+
+            actual.Should().Be(expected);
+        }
+
         private class ClassBuilder
         {
             private List<Relationship> _relationships = new List<Relationship>();
@@ -83,6 +99,12 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             public ClassBuilder WithAggregationOf(Class of)
             {
                 _relationships.Add(new Relationship(of, RelationshipType.Aggregation));
+                return this;
+            }
+
+            public ClassBuilder WithCompositionOf(Class of)
+            {
+                _relationships.Add(new Relationship(of, RelationshipType.Composition));
                 return this;
             }
         }
