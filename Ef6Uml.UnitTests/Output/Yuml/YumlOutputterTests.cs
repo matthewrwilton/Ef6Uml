@@ -69,6 +69,25 @@ namespace Ef6Uml.UnitTests.Output.Yuml
             actual.Should().Be(expected);
         }
 
+        [Fact]
+        public void Output_Correct_For_Nested_Relationships()
+        {
+            var target = new YumlOutputter();
+            var point = new ClassBuilder()
+                .WithName("Point");
+            var location = new ClassBuilder()
+                .WithName("Location")
+                .WithCompositionOf(point);
+            var company = new ClassBuilder()
+                .WithName("Company")
+                .WithCompositionOf(location);
+
+            var actual = target.Output(company);
+            var expected = "[Company]++->[Location]\r\n[Location]++->[Point]";
+
+            actual.Should().Be(expected);
+        }
+
         private class ClassBuilder
         {
             private List<Relationship> _relationships = new List<Relationship>();
