@@ -1,24 +1,68 @@
-﻿using System.Collections.Generic;
-
-namespace Ef6Uml.Uml
+﻿namespace Ef6Uml.Uml
 {
     public class Class
     {
-        private readonly List<Relationship> _relationships = new List<Relationship>();
-
-        public Class(string name, IReadOnlyList<Relationship> relationships)
+        public Class(string name, Model model)
         {
             Name = name;
-            _relationships = new List<Relationship>(relationships);
+            Model = model;
         }
 
         public string Name { get; }
 
-        public IReadOnlyList<Relationship> Relationships => _relationships;
+        public Model Model { get; }
 
-        public void AddRelationship(Relationship relationship)
+        public static bool operator ==(Class c1, Class c2)
         {
-            _relationships.Add(relationship);
+            return c1.Equals(c2);
+        }
+
+        public static bool operator !=(Class c1, Class c2)
+        {
+            return !c1.Equals(c2);
+        }
+
+        public Class AggregationOf(Class of)
+        {
+            Model.HasRelationship(this, of, RelationshipType.Aggregation);
+            return this;
+        }
+
+        public Class AssociatedWith(Class to)
+        {
+            Model.HasRelationship(this, to, RelationshipType.Association);
+            return this;
+        }
+
+        public Class ComposedOf(Class of)
+        {
+            Model.HasRelationship(this, of, RelationshipType.Composition);
+            return this;
+        }
+
+        public Class InheritingFrom(Class from)
+        {
+            Model.HasRelationship(from, this, RelationshipType.Inheritance);
+            return this;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Class comparison = obj as Class;
+
+            return comparison.Name == this.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 13;
+            hash = (hash * 7) + Name.GetHashCode();
+            return hash;
         }
 
         public override string ToString()

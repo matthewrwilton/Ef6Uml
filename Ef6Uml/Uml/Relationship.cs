@@ -2,19 +2,22 @@
 {
     public class Relationship
     {
-        public Relationship(Class with, RelationshipType type)
+        public Relationship(Class from, Class to, RelationshipType type)
         {
-            With = with;
+            From = from;
+            To = to;
             Type = type;
         }
 
-        public Class With { get; }
+        public Class From { get; }
+
+        public Class To { get; }
 
         public RelationshipType Type { get; }
 
         public override string ToString()
         {
-            return $"{With}({Type})";
+            return $"{From} ({Type}) {To}";
         }
     }
 }

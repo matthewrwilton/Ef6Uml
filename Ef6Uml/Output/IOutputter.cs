@@ -4,6 +4,6 @@ namespace Ef6Uml.Output
 {
     public interface IOutputter
     {
-        string Output(Class input);
+        string Output(Model model);
     }
 }
