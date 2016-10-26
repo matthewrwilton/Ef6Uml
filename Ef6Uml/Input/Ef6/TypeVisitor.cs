@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using Ef6Uml.Uml;
 
 namespace Ef6Uml.Input.Ef6
@@ -12,9 +14,21 @@ namespace Ef6Uml.Input.Ef6
             _model = model;
         }
 
-        public void Visit(Type type)
+        public Class Visit(Type type)
         {
-            _model.HasClass(type.Name);
+            var modelClass = _model.HasClass(type.Name);
+
+            var properties = type.GetMembers()
+                .Select(member => member as PropertyInfo)
+                .Where(propertyInfo => propertyInfo != null);
+
+            foreach (var property in properties)
+            {
+                var propertyClass = Visit(property.PropertyType);
+                modelClass.AssociatedWith(propertyClass);
+            }
+
+            return modelClass;
         }
     }
 }

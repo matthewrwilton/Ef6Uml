@@ -2,16 +2,6 @@
 {
     public class Class
     {
-        public Class(string name, Model model)
-        {
-            Name = name;
-            Model = model;
-        }
-
-        public string Name { get; }
-
-        public Model Model { get; }
-
         public static bool operator ==(Class c1, Class c2)
         {
             return c1.Equals(c2);
@@ -21,6 +11,16 @@
         {
             return !c1.Equals(c2);
         }
+
+        public Class(string name, Model model)
+        {
+            Name = name;
+            Model = model;
+        }
+
+        public string Name { get; }
+
+        public Model Model { get; }
 
         public Class AggregationOf(Class of)
         {
@@ -55,7 +55,7 @@
 
             Class comparison = obj as Class;
 
-            return comparison.Name == this.Name;
+            return comparison.Name == Name;
         }
 
         public override int GetHashCode()
