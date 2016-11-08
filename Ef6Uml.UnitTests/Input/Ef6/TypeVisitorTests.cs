@@ -30,7 +30,7 @@ namespace Ef6Uml.UnitTests.Input.Ef6
         }
 
         private class Associate { }
-        
+
         [Fact]
         public void Adds_Associated_Types_To_Model()
         {
@@ -97,6 +97,7 @@ namespace Ef6Uml.UnitTests.Input.Ef6
             model.Relationships.Should().Equal(expectedRelationships);
         }
 
+
         private class AssociateEnd1
         {
             public AssociateEnd2 AssociateEnd2 { get; set; }
@@ -131,6 +132,20 @@ namespace Ef6Uml.UnitTests.Input.Ef6
 
             model.Classes.Should().Equal(expectedClasses);
             model.Relationships.Should().Equal(expectedRelationships);
+        }
+
+
+        public class Aggregate
+        {
+            public IList<Aggregated> Aggregation { get; set; }
+        }
+
+        public class Aggregated { }
+
+        [Fact]
+        public void Adds_Aggregated_Types_To_Model()
+        {
+
         }
     }
 }
