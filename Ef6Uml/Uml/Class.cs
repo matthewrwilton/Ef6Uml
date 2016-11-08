@@ -4,11 +4,21 @@
     {
         public static bool operator ==(Class c1, Class c2)
         {
+            if (object.ReferenceEquals(c1, null))
+            {
+                return object.ReferenceEquals(c2, null);
+            }
+
             return c1.Equals(c2);
         }
 
         public static bool operator !=(Class c1, Class c2)
         {
+            if (object.ReferenceEquals(c1, null))
+            {
+                return !object.ReferenceEquals(c2, null);
+            }
+
             return !c1.Equals(c2);
         }
 

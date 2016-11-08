@@ -16,7 +16,15 @@ namespace Ef6Uml.Input.Ef6
 
         public Class Visit(Type type)
         {
-            var modelClass = _model.HasClass(type.Name);
+            var className = type.Name;
+
+            var modelClass = _model.Classes.SingleOrDefault(c => c.Name == className);
+            if (modelClass != null)
+            {
+                return modelClass;
+            }
+
+            modelClass = _model.HasClass(className);
 
             var properties = type.GetMembers()
                 .Select(member => member as PropertyInfo)

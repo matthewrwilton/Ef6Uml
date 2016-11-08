@@ -96,5 +96,41 @@ namespace Ef6Uml.UnitTests.Input.Ef6
             model.Classes.Should().Equal(expectedClasses);
             model.Relationships.Should().Equal(expectedRelationships);
         }
+
+        private class AssociateEnd1
+        {
+            public AssociateEnd2 AssociateEnd2 { get; set; }
+        }
+
+        private class AssociateEnd2
+        {
+            public AssociateEnd1 AssociateEnd1 { get; set; }
+        }
+
+        [Fact]
+        public void Handles_Circular_Associations()
+        {
+            var model = new Model();
+
+            var target = new TypeVisitor(model);
+            target.Visit(typeof(AssociateEnd1));
+
+            var associateEnd1Class = new Class(nameof(AssociateEnd1), model);
+            var associateEnd2Class = new Class(nameof(AssociateEnd2), model);
+            var expectedClasses = new List<Class>
+            {
+                associateEnd1Class,
+                associateEnd2Class
+            };
+
+            var expectedRelationships = new List<Relationship>
+            {
+                new Relationship(associateEnd2Class, associateEnd1Class, RelationshipType.Association),
+                new Relationship(associateEnd1Class, associateEnd2Class, RelationshipType.Association)
+            };
+
+            model.Classes.Should().Equal(expectedClasses);
+            model.Relationships.Should().Equal(expectedRelationships);
+        }
     }
 }
