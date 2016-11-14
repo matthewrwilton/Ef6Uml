@@ -145,7 +145,26 @@ namespace Ef6Uml.UnitTests.Input.Ef6
         [Fact]
         public void Adds_Aggregated_Types_To_Model()
         {
+            var model = new Model();
 
+            var target = new TypeVisitor(model);
+            target.Visit(typeof(Aggregate));
+            
+            var aggregateClass = new Class(nameof(Aggregate), model);
+            var aggregatedClass = new Class(nameof(Aggregated), model);
+            var expectedClasses = new List<Class>
+            {
+                aggregateClass,
+                aggregatedClass
+            };
+
+            var expectedRelationships = new List<Relationship>
+            {
+                new Relationship(aggregateClass, aggregatedClass, RelationshipType.Aggregation)
+            };
+
+            model.Classes.Should().Equal(expectedClasses);
+            model.Relationships.Should().Equal(expectedRelationships);
         }
     }
 }
